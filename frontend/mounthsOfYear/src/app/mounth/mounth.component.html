@@ -1,0 +1,124 @@
+<div id="main-container">
+    <br>
+    <div class="row ">
+        <div class="container">
+            <div class="col-4">
+                <input class="" type="text" [(ngModel)]="searchKey" />
+                <button type="submit" class="btn btn-dark" (click)="searchMounths(searchKey)">Пошук</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <div class="table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Назва</th>
+                            <th>V</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable" *ngFor="let mounth of mounths; let i = index">
+                        <tr *ngIf=mounth.active>
+                            <td>
+                                {{mounth.number}}
+                            </td>
+                            <td>
+                                {{mounth.name}}
+                            </td>
+                            <td>
+                                <input type="radio" name="chickenMounth" [(ngModel)]="chekedItem" value={{mounth.id}} />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="container">
+            <button *ngIf="chekedItem != -1" class="btn btn-dark" (click)="deleteMounth(chekedItem)">Видалити </button>
+            <button class="btn btn-dark" type="button" (click)="openModal(addModal)">Додати</button>
+            <button *ngIf="chekedItem != -1" class="btn btn-dark" type="button"
+                (click)="showUpdateModal(updateModal, chekedItem)">Редагувати</button>
+        </div>
+    </div>
+
+
+    <!-- ADD MODAL WINDOW -->
+
+    <ng-template #addModal>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+                <span aria-hidden="true" class="visually-hidden">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="addMounth(addForm)">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="number">Number</label>
+                    <input type="number" ngModel name="number" class="form-control" id="number" placeholder="Number"
+                        required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" aria-label="Close" (click)="modalRef?.hide()">
+                        Закрити
+                    </button>
+                    <button [disabled]="addForm.invalid" type="submit" class="btn btn-dark">Зберегти</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <!-- END ADD MODAL WINDOW -->
+
+    <!-- UPDATE MODAL WINDOW -->
+
+    <ng-template #updateModal>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+                <span aria-hidden="true" class="visually-hidden">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #editForm="ngForm">
+                <div class="form-group">
+                    <input type="hidden" ngModel="{{editMounth.id}}" name="id" class="form-control" id="id"
+                        placeholder="Id" required>
+                    <input type="hidden" ngModel="{{editMounth.active}}" name="active" class="form-control" id="active"
+                        placeholder="Active" required>
+                    <label for="name">Name</label>
+                    <input type="text" ngModel="{{editMounth.name}}" name="name" class="form-control" id="name"
+                        placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="number">Number</label>
+                    <input type="number" ngModel="{{editMounth.number}}" name="number" class="form-control" id="number"
+                        placeholder="Number" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" aria-label="Close" (click)="modalRef?.hide()">
+                        Закрити
+                    </button>
+                    <button (click)="updateMounth(editForm.value)" data-dismiss="modal"
+                        class="btn btn-dark">Зберегти</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <!-- END UPDATE MODAL WINDOW -->
+
+</div>
